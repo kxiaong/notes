@@ -162,7 +162,7 @@ having avg(salary) > 10000;
 >
 > 一个复杂SQL语句的含义可以通过下面的操作序列来分析：
 >
-> 1. 先抛开所有条件，从from语句计算出一个关系，这个关系就是两个表的笛卡尔积。
+> 1. 先抛开所有条件，从from语句计算出一个关系，这个关系就是两个表的笛卡尔集。
 > 2. 如果有where子句，将where子句的谓语应用到第1步计算出的关系上
 > 3. 如果出现group by子句。将第2步计算出的关系按照group by的条件分为多个元组。如果没有group by，第2步计算出的关系作为一个元组。
 > 4. 如果有having子句，将having子句的谓语作用到每一个分组上。
@@ -286,6 +286,8 @@ where dept_total.value >= dept_total_avg.value;
 
 上面这个SQL语句的含义是什么样的？
 
-`dept_total`是一个临时表，这个表有两列：`department`和`value`。因为`sum(salary)`是经过`group by department`计算得来的，所以`sum(salary)`是每个部门的工资总额. `dept_total_avg`是另一个临时表，它只有一列`value`，`value`的值是`avg(salary)`计算得来的。最后的`where`语句是找出“部门工资总额>=部门平均工资那些记录”，最后select出`department`.
+`dept_total`是一个临时表，这个表有两列：`department`和`value`。因为`value`是经过`group by department`sum计算得来的，所以`value`是每个部门的工资总额. 
 
-特别需要说明的是:with语句并没有真的产生临时表（临时表有其他的定义方法）。with语句返回的仍然是一个记录或一个元组(一组记录). 基于with语句做后续的查询本质上也是对with过程产生的记录或者元组的查询。但即使从数据库理论层面上也很难分清楚一组记录和一个临时表有什么区别。这里姑且不做详细讨论。　
+`dept_total_avg`是另一个临时表，它只有一列`value`，`value`的值是`avg(salary)`计算得来的。最后的`where`语句是找出“部门工资总额>=部门平均工资那些记录”，最后select出`department`.
+
+**特别需要说明的是**:with语句并没有真的产生临时表（临时表有其他的定义方法）。with语句返回的仍然是一个记录或一个元组(一组记录). 基于with语句做后续的查询本质上也是对with过程产生的记录或者元组的查询。但即使从数据库理论层面上也很难分清楚一组记录和一个临时表有什么区别。这里姑且不做详细讨论。　
