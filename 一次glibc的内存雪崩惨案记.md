@@ -31,7 +31,7 @@ def process(data: List):
 
 根据测试脚本对`process`函数进行5000次重复调用，通过`memory-profiler`统计程序的内存占用情况：
 
-![image-20200628180540505](Untitled.assets/image-20200628180540505.png)
+![image-20200628180540505](images/image-20200628180540505.png)
 
 看一下内存占用曲线：
 
